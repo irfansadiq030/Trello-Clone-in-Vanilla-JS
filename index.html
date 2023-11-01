@@ -7,19 +7,48 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Symbols+Outlined">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="assets/style.css">
 </head>
 <body>
-    <div class="main min-h-screen bg-yellow-300 w-screen">
-        <div class="sidebar w-80 bg-white min-h-screen">
-            <div class="sidebar_head flex justify-between items-center border-b-2 border-black-500 p-5">
-                <div class="app_name"> <h1 class="text-3xl">TRELLO</h1> </div>
-                <div class="hide_sidebar flex justify-center items-center w-9 h-9 bg-yellow-300 rounded-full">
+    <div class="main min-h-screen bg-yellow-300 w-screen p-5">
+        <div class="topbar w-full py-5 px-8 flex justify-between items-center bg-yellow-500/50 fixed top-0 left-0">
+            
+            <div id="openSidebar"
+                class="open_menu w-12 h-12 rounded-full bg-white flex justify-center items-center cursor-pointer">
+                <span class="material-symbols-outlined text-3xl">
+                    menu
+                </span>
+            </div>
+            <h2 class="text-center text-2xl font-semibold uppercase active_board_title"></h2>
+
+        </div>
+        
+        <div class="sidebar close_sidebar w-80 bg-white min-h-screen fixed top-0 left-0 p-5">
+            <!-- Sidebar Header -->
+            <div class="sidebar_head flex justify-between items-center border-b-2 border-black-500 pb-5">
+                <div class="app_name"> <h1 class="text-3xl font-semibold">TRELLO</h1> </div>
+                <div id="sidebarClose" class="hide_sidebar flex justify-center items-center w-9 h-9 bg-yellow-300 rounded-full cursor-pointer">
                     <span class="material-symbols-outlined text-4xl ">
                         chevron_left
                     </span>
                 </div>
             </div>
+
+            <!-- Boards List -->
+            <h2 class="text-2xl font-bold my-5">Boards</h2>
+            <ul class="boards_list w-full min-h-full">
+                <li class="text-xl mb-4 bg-white rounded-lg py-3 pl-2 border-b-2 border-yellow-300 hover:shadow-md cursor-pointer board_active">Abdullah Aid</li>
+                <li class="text-xl mb-4 bg-white rounded-lg py-3 pl-2 border-b-2 border-yellow-300 hover:shadow-md cursor-pointer board_active">MA Marketting</li>
+                <li class="text-xl mb-4 bg-white rounded-lg py-3 pl-2 border-b-2 border-yellow-300 hover:shadow-md cursor-pointer board_active">Board 1</li>
+                <li class="text-xl mb-4 bg-white rounded-lg py-3 pl-2 border-b-2 border-yellow-300 hover:shadow-md cursor-pointer board_active">Board 1</li>
+            </ul>
+
+            <!-- Add New Board -->
+
+            <input id="boardName" type="text" placeholder="Type Boad Name.." class="form-input w-full px-4 py-3 border-2 rounded-md">
+            <button id="addBoard" class="bg-black p-2 mt-3 text-white font-semibold rounded-md float-right">Add Board</button>
         </div>
     </div>
+    <script src="assets/main.js"></script>
 </body>
 </html>

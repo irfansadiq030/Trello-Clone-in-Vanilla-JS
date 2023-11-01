@@ -1,0 +1,8 @@
+.sidebar{
+    translate: 0;
+    transition: 1s;
+}
+.close_sidebar{
+    translate: -320px;
+    transition: 1s;
+}
