@@ -74,7 +74,7 @@ boardName.addEventListener("keydown", function (e) {
 
 /* <=================================== lISTING BOARDS FUNCTIONS ===================================> */
 
-const activateBoard = (boardId=1) => {
+const activateBoard = ( boardId=1 ) => {
 
     for (const activeBoard of boards) {
 

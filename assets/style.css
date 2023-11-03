@@ -1,8 +1,64 @@
-.sidebar{
+.sidebar {
     translate: 0;
     transition: 1s;
+    z-index: 2;
 }
-.close_sidebar{
+
+.close_sidebar {
     translate: -320px;
     transition: 1s;
+}
+
+.cards_container {
+    width: 900px;
+    min-height: 500px;
+    overflow-x: scroll !important;
+}
+
+.board_card {
+    width: 500px !important;
+    flex-shrink: 0;
+}
+
+.add_card {
+    width: 350px;
+    flex-shrink: 0;
+}
+
+.containerr {
+    position: relative;
+    width: calc(100% - 200px);
+    height: auto;
+    overflow-x: auto;
+    white-space: nowrap;
+    width: 100%;
+    min-height: 70vh;
+}
+
+.item {
+    display: inline-block;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+/* width */
+.containerr::-webkit-scrollbar {
+    width: 4px;
+}
+
+/* Track */
+.containerr::-webkit-scrollbar-track {
+    background: #f1f1f17a;
+    border-radius: 10px;
+}
+
+/* Handle */
+.containerr::-webkit-scrollbar-thumb {
+    background: #ffffffcb;
+    border-radius: 10px;
+}
+
+/* Handle on hover */
+.containerr::-webkit-scrollbar-thumb:hover {
+    /* background: #555; */
 }
