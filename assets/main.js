@@ -6,10 +6,14 @@ const sidebarClose = document.querySelector("#sidebarClose");
 const openSidebar = document.querySelector("#openSidebar");
 const boardName = document.querySelector("#boardName");
 const addBoard = document.querySelector("#addBoard");
+const addCard = document.querySelector("#addCard");
+const cardName = document.querySelector("#cardName");
+const cardsContainer = document.querySelector("#cardsContainer");
 const sidebar = document.querySelector(".sidebar");
 const boardsList = document.querySelector(".boards_list");
 const boardTitle = document.querySelector(".active_board_title");
-console.log(boardTitle.innerText)
+const boardCardName = document.querySelector(".cardName");
+
 
 
 /* <=================================== SIDEBAR FUNCTIONS ===================================> */
@@ -33,6 +37,7 @@ let boards = [
         id: 1,
         name: "Test",
         isActive: true,
+        cards: [],
         added_on: new Date()
     }
 ];
@@ -51,6 +56,7 @@ addBoard.addEventListener("click", function (e) {
         id: boards.at(-1).id + 1, // Get last indexed element of boards[] and increase 1 to make a sequence id of board.
         name: boardName.value,
         isActive: false,
+        cards: [],
         added_on: new Date()
     }
 
@@ -59,7 +65,7 @@ addBoard.addEventListener("click", function (e) {
 
     displayBoards();
 
-    console.log(boards)
+    // console.log(boards)
 
 }, false)
 
@@ -74,7 +80,7 @@ boardName.addEventListener("keydown", function (e) {
 
 /* <=================================== lISTING BOARDS FUNCTIONS ===================================> */
 
-const activateBoard = ( boardId=1 ) => {
+const activateBoard = (boardId = 1) => {
 
     for (const activeBoard of boards) {
 
@@ -82,9 +88,12 @@ const activateBoard = ( boardId=1 ) => {
             activeBoard.isActive = true
             boardTitle.innerText = activeBoard.name
 
-        }else{
+            // Render Cards of Active Boards
+            displayCards(activeBoard.id);
+
+        } else {
             activeBoard.isActive = false
-        }   
+        }
     }
 }
 
@@ -101,7 +110,7 @@ const displayBoards = () => {
         li.className = "text-xl mb-4 bg-white rounded-lg py-3 pl-2 border-b-2 border-yellow-300 hover:shadow-md cursor-pointer board_active";
         li.textContent = board.name;
 
-        li.addEventListener("click", function () { activateBoard( board.id ) });
+        li.addEventListener("click", function () { activateBoard(board.id) });
 
         boardsList.appendChild(li);
     }
@@ -109,17 +118,96 @@ const displayBoards = () => {
 
 displayBoards();
 
-/* <=================================== UTILITY WITH ACTIVE BOARD FUNCTIONS ===================================> */
+/* <=================================== ADD NEW BOARD ===================================> */
 
-// for (const activeBoard of boards) {
-    
-//     if (activeBoard.isActive === true) {
+addCard.addEventListener("click", function () {
 
-//         boardTitle.textContent = activeBoard.name
-//     }   
-// }   
+    if (cardName.value === "") {
+
+        alert("Add Board Name Please!")
+        return;
+    }
+
+    // Adding New Board to the Active Card
+    for (const activeBoard of boards) {
+
+        if (activeBoard.isActive === true) {
+
+            let newCard = {
+
+                name: cardName.value,
+                id: Math.random().toString(16).slice(2),
+                created_on: new Date()
+            }
+
+            let activeCardIndex = boards.indexOf(activeBoard); // Get Index Number of the active Board
+
+            boards[activeCardIndex].cards.push(newCard); // Pushing new card to the active board's card's array
+
+            displayCards(activeBoard.id);
+
+        }
+    }
+    cardName.value = ""
+
+}, false);
+
+/* <=================================== DISPLAY CARDS of Active BOARD ===================================> */
+
+function displayCards(activateBoardId = 1) {
+
+    for (const board of boards) {
+
+        if (board.id === activateBoardId) {
+
+            renderCards(board.cards)
+        }
+    }
+}
+
+
+/* <=================================== RENDER CARDS of Active BOARD ===================================> */
+
+function renderCards(activeBoardCards) {
+
+    cardsContainer.innerHTML = ''; // EMPTY the Cards container
+
+    if (activeBoardCards.length === 0) {
+
+        return;
+    }
+
+    for (const activeCard of activeBoardCards) {
+        const card = document.createElement("div");
+        card.className = "board_card shadow-md hover:shadow-lg rounded-md h-80 bg-white mr-5 p-5";
+
+        const cardNameConatiner = document.createElement('div');
+        cardNameConatiner.className = "flex justify-between items-center w-full h-8";
+
+        const cardName = document.createElement("div");
+        cardName.className = "cardName text-xl font-semibold";
+        cardName.innerText = activeCard.name;
+
+        const cardContextMenu = document.createElement("div");
+        const menuIcon = document.createElement("span");
+        menuIcon.className = "material-symbols-outlined mt-2 hover:bg-yellow-300 cursor-pointer rounded-full p-1";
+        menuIcon.textContent = 'more_horiz';
+
+        cardContextMenu.appendChild(menuIcon);
+
+        // Append both cardName and cardContextMenu to cardNameConatiner
+        cardNameConatiner.appendChild(cardName);
+        cardNameConatiner.appendChild(cardContextMenu);
+
+        card.appendChild(cardNameConatiner);
+
+        cardsContainer.prepend(card);
+    }
+
+
+}
 
 
 
-
+/* <=================================== RENDER CARDS of Active BOARD ===================================> */
 

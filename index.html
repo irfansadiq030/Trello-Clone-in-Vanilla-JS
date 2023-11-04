@@ -66,26 +66,55 @@
 
         <!-- cards container -->
 
-        <div class="containerr mt-32 mx-auto flex items-start">
-        
-            <div class="board_card shadow-md hover:shadow-lg rounded-md h-80 bg-white mr-5 p-5 ">
+        <div class="containerr relative  w-full mt-32 mx-auto flex items-start">
+
+            <div id="cardsContainer" class="containerr relative min-h-[70vh] w-full mr-2 flex items-start py-5">
+                <div class="board_card shadow-md hover:shadow-lg rounded-md min-h-32 bg-white mr-5 p-5 flex flex-col">
+
+                    <div class="flex justify-between items-center w-full h-8">
+                        <div class="cardName text-xl font-semibold">Card Name</div>
+                        <div class="context_menu ">
+                            <span class="material-symbols-outlined mt-2 hover:bg-yellow-300 cursor-pointer rounded-full p-1">
+                                more_horiz
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- Task Lists -->
+                    <ul class="mt-5">
+                        <li class="mb-3 bg-white shadow-md rounded-md py-4 px-3 flex justify-between hover:shadow-lg">
+                            <span>Task Name</span>
+                            <span class="action flex">
+                                <span class="material-symbols-outlined pr-3 cursor-pointer hover:text-red-600">
+                                    delete
+                                </span>
+                                <span class="material-symbols-outlined cursor-pointer hover:text-yellow-500">
+                                    edit
+                                </span>
+                            </span>
+                        </li>
+                    </ul>
+                    <!-- Add Task -->
+                    <div class="flex items-center justify-between w-full mt-5">
+                        <input id="taskName" type="text" placeholder="Add Task.." class="form-input w-full px-2 py-2 border rounded-md">
+                        <button id="addTask" class="bg-black ml-2 text-white rounded-full"><span
+                                class="material-symbols-outlined w-8 h-8 flex items-center justify-center">
+                                add
+                            </span></button>
+                    </div>
+                </div>               
             </div>
-            <div class="board_card shadow-md hover:shadow-lg rounded-md h-80 bg-white mr-5 p-5 ">
-            </div>
-            <div class="board_card shadow-md hover:shadow-lg rounded-md h-80 bg-white mr-5 p-5 ">
-            </div>
-            <div class="board_card shadow-md hover:shadow-lg rounded-md h-80 bg-white mr-5 p-5 ">
-            </div>
-            
+
             <!-- Add Card -->
             <div class="flex items-center justify-between add_card">
-                <input id="cardName" type="text" placeholder="Add Card.." class="form-input w-full px-4 py-2 border rounded-md">
-                <button id="addBoard" class="bg-black ml-2 text-white rounded-full"><span
+                <input id="cardName" type="text" placeholder="Add Card.."
+                    class="form-input w-full px-2 py-2 border rounded-md">
+                <button id="addCard" class="bg-black ml-2 text-white rounded-full"><span
                         class="material-symbols-outlined w-8 h-8 flex items-center justify-center">
                         add
                     </span></button>
             </div>
-        
+
         </div>
     </div>
     <script src="assets/main.js"></script>

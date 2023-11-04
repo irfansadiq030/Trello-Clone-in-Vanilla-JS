@@ -16,7 +16,7 @@
 }
 
 .board_card {
-    width: 500px !important;
+    width: 350px !important;
     flex-shrink: 0;
 }
 
@@ -26,24 +26,22 @@
 }
 
 .containerr {
-    position: relative;
-    width: calc(100% - 200px);
     height: auto;
     overflow-x: auto;
     white-space: nowrap;
-    width: 100%;
-    min-height: 70vh;
+    /* min-height: 70vh; */
 }
 
-.item {
+/* .item {
     display: inline-block;
     padding-left: 20px;
     padding-right: 20px;
-}
+} */
 
 /* width */
 .containerr::-webkit-scrollbar {
-    width: 4px;
+    width: 3px;
+    height: 10px;
 }
 
 /* Track */
