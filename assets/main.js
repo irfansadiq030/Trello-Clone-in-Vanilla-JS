@@ -124,7 +124,7 @@ addCard.addEventListener("click", function () {
 
     if (cardName.value === "") {
 
-        alert("Add Board Name Please!")
+        alert("Add Card Name Please!")
         return;
     }
 
@@ -152,6 +152,15 @@ addCard.addEventListener("click", function () {
 
 }, false);
 
+// Add an event listener to the input field to handle Enter key press
+cardName.addEventListener("keydown", function (e) {
+
+    if (e.key === "Enter") {
+        addCard.click(); // Simulate a click on the "Add" button
+    }
+
+});
+
 /* <=================================== DISPLAY CARDS of Active BOARD ===================================> */
 
 function displayCards(activateBoardId = 1) {
@@ -170,6 +179,23 @@ function displayCards(activateBoardId = 1) {
 
 function renderCards(activeBoardCards) {
 
+    // Creating this functions Global Variables:
+    // Card Header Variables - start
+    let cardNameConatiner;
+    let cardName;
+    let cardContextMenu;
+    let menuIcon;
+    // Card Header Variables - end
+
+    // Card Task List Variables -start
+    let taskUlEl ;
+    let taskLiEl;
+    let taskNameEl;
+    let taskActionsEl;
+    let taskActionEditEl;
+    let taskActionDelEl;
+    // Card Task List Variables -end
+
     cardsContainer.innerHTML = ''; // EMPTY the Cards container
 
     if (activeBoardCards.length === 0) {
@@ -181,15 +207,27 @@ function renderCards(activeBoardCards) {
         const card = document.createElement("div");
         card.className = "board_card shadow-md hover:shadow-lg rounded-md h-80 bg-white mr-5 p-5";
 
-        const cardNameConatiner = document.createElement('div');
+        
+        renderCardHeader(activeCard);
+        
+        card.appendChild(cardNameConatiner);
+
+        renderTaskList()
+        card.appendChild(taskUlEl);
+        cardsContainer.prepend(card);
+    }
+
+    function renderCardHeader(activeCard) {
+
+        cardNameConatiner = document.createElement('div');
         cardNameConatiner.className = "flex justify-between items-center w-full h-8";
 
-        const cardName = document.createElement("div");
+        cardName = document.createElement("div");
         cardName.className = "cardName text-xl font-semibold";
         cardName.innerText = activeCard.name;
 
-        const cardContextMenu = document.createElement("div");
-        const menuIcon = document.createElement("span");
+        cardContextMenu = document.createElement("div");
+        menuIcon = document.createElement("span");
         menuIcon.className = "material-symbols-outlined mt-2 hover:bg-yellow-300 cursor-pointer rounded-full p-1";
         menuIcon.textContent = 'more_horiz';
 
@@ -199,13 +237,49 @@ function renderCards(activeBoardCards) {
         cardNameConatiner.appendChild(cardName);
         cardNameConatiner.appendChild(cardContextMenu);
 
-        card.appendChild(cardNameConatiner);
 
-        cardsContainer.prepend(card);
+    }
+
+    function renderTaskList(){
+
+        taskUlEl = document.createElement("ul");
+        taskUlEl.className = "mt-5";
+
+        taskLiEl = document.createElement("li");
+        taskLiEl.className = "mb-3 bg-white shadow-md rounded-md py-4 px-3 flex justify-between hover:shadow-lg";
+        
+        taskNameEl = document.createElement("span");
+        taskNameEl.textContent = 'Design A new Page';
+
+        taskLiEl.appendChild(taskNameEl);
+        taskUlEl.appendChild(taskLiEl);
+
+        renderTaskActions(); // calling the function that shows task actions like Edit/Delete the task.
+        
+    }
+
+    function renderTaskActions(){
+
+        taskActionsEl = document.createElement("span");
+        taskActionsEl.className = "action flex";
+
+        taskActionEditEl = document.createElement("span");
+        taskActionEditEl.className = "material-symbols-outlined pr-3 cursor-pointer hover:text-red-600";
+        taskActionEditEl.textContent = "delete";
+
+        taskActionDelEl = document.createElement("span");
+        taskActionDelEl.className = "material-symbols-outlined cursor-pointer hover:text-yellow-500";
+        taskActionDelEl.textContent = "edit";
+
+        taskActionsEl.appendChild(taskActionEditEl)
+        taskActionsEl.appendChild(taskActionDelEl)
+
+        taskLiEl.appendChild(taskActionsEl);
     }
 
 
 }
+
 
 
 
