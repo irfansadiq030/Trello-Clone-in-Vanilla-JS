@@ -13,6 +13,7 @@ const sidebar = document.querySelector(".sidebar");
 const boardsList = document.querySelector(".boards_list");
 const boardTitle = document.querySelector(".active_board_title");
 const boardCardName = document.querySelector(".cardName");
+const addTaskBtn = document.querySelector(".add_task_btn");
 
 
 
@@ -180,6 +181,7 @@ function displayCards(activateBoardId = 1) {
 function renderCards(activeBoardCards) {
 
     // Creating this functions Global Variables:
+    let card;
     // Card Header Variables - start
     let cardNameConatiner;
     let cardName;
@@ -188,13 +190,21 @@ function renderCards(activeBoardCards) {
     // Card Header Variables - end
 
     // Card Task List Variables -start
-    let taskUlEl ;
+    let taskUlEl;
     let taskLiEl;
     let taskNameEl;
     let taskActionsEl;
     let taskActionEditEl;
     let taskActionDelEl;
     // Card Task List Variables -end
+
+    // Card Add New Task Variables -start
+
+    let formContainer;
+    let addNewTaskField;
+    let addNewTaskBtn;
+    // Card Add New Task Variables -end
+
 
     cardsContainer.innerHTML = ''; // EMPTY the Cards container
 
@@ -204,17 +214,20 @@ function renderCards(activeBoardCards) {
     }
 
     for (const activeCard of activeBoardCards) {
-        const card = document.createElement("div");
-        card.className = "board_card shadow-md hover:shadow-lg rounded-md h-80 bg-white mr-5 p-5";
 
-        
+        card = document.createElement("div")
+        card.className = "board_card shadow-md hover:shadow-lg rounded-md h-80 bg-white mr-5 p-5";
+        card.id = activeCard.id;
+
         renderCardHeader(activeCard);
-        
+
         card.appendChild(cardNameConatiner);
 
         renderTaskList()
         card.appendChild(taskUlEl);
         cardsContainer.prepend(card);
+
+        renderAddNewTaskForm();
     }
 
     function renderCardHeader(activeCard) {
@@ -240,14 +253,14 @@ function renderCards(activeBoardCards) {
 
     }
 
-    function renderTaskList(){
+    function renderTaskList() {
 
         taskUlEl = document.createElement("ul");
         taskUlEl.className = "mt-5";
 
         taskLiEl = document.createElement("li");
         taskLiEl.className = "mb-3 bg-white shadow-md rounded-md py-4 px-3 flex justify-between hover:shadow-lg";
-        
+
         taskNameEl = document.createElement("span");
         taskNameEl.textContent = 'Design A new Page';
 
@@ -255,10 +268,10 @@ function renderCards(activeBoardCards) {
         taskUlEl.appendChild(taskLiEl);
 
         renderTaskActions(); // calling the function that shows task actions like Edit/Delete the task.
-        
+
     }
 
-    function renderTaskActions(){
+    function renderTaskActions() {
 
         taskActionsEl = document.createElement("span");
         taskActionsEl.className = "action flex";
@@ -277,11 +290,40 @@ function renderCards(activeBoardCards) {
         taskLiEl.appendChild(taskActionsEl);
     }
 
+    function renderAddNewTaskForm() {
+
+        formContainer = document.createElement("div");
+        formContainer.className = "flex items-center justify-between w-full mt-5";
+
+        addNewTaskField = document.createElement("input");
+        addNewTaskField.type = 'text';
+        addNewTaskField.className = 'task_name form-input w-full px-2 py-2 border rounded-md';
+        addNewTaskField.placeholder = "Add New Task..";
+
+        addNewTaskBtn = document.createElement("button");
+        addNewTaskBtn.className = "add_task_btn bg-black ml-2 text-white rounded-full";
+
+        let addTaskIcon = document.createElement('span');
+        addTaskIcon.className = 'material-symbols-outlined w-8 h-8 flex items-center justify-center';
+        addTaskIcon.textContent = 'add';
+
+        addNewTaskBtn.appendChild(addTaskIcon);
+        formContainer.appendChild(addNewTaskField);
+        formContainer.appendChild(addNewTaskBtn);
+
+        card.appendChild(formContainer);
+
+    }
+
 
 }
 
 
 
 
-/* <=================================== RENDER CARDS of Active BOARD ===================================> */
+/* <=================================== Add New Task ===================================> */
 
+addTaskBtn.addEventListener("click", function (e) {
+
+    alert()
+}, true)
