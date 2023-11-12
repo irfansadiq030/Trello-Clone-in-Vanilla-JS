@@ -16,7 +16,6 @@ const boardCardName = document.querySelector(".cardName");
 const addTaskBtn = document.querySelector(".add_task_btn");
 
 
-
 /* <=================================== SIDEBAR FUNCTIONS ===================================> */
 
 sidebarClose.addEventListener("click", function () {
@@ -138,7 +137,8 @@ addCard.addEventListener("click", function () {
 
                 name: cardName.value,
                 id: Math.random().toString(16).slice(2),
-                created_on: new Date()
+                created_on: new Date(),
+                tasks: []
             }
 
             let activeCardIndex = boards.indexOf(activeBoard); // Get Index Number of the active Board
@@ -146,7 +146,6 @@ addCard.addEventListener("click", function () {
             boards[activeCardIndex].cards.push(newCard); // Pushing new card to the active board's card's array
 
             displayCards(activeBoard.id);
-
         }
     }
     cardName.value = ""
@@ -180,6 +179,7 @@ function displayCards(activateBoardId = 1) {
 
 function renderCards(activeBoardCards) {
 
+    // console.log(`Active Board's Cards : ${activeBoardCards}`)
     // Creating this functions Global Variables:
     let card;
     // Card Header Variables - start
@@ -190,7 +190,7 @@ function renderCards(activeBoardCards) {
     // Card Header Variables - end
 
     // Card Task List Variables -start
-    let taskUlEl;
+    let taskUlEl = document.createElement("ul");
     let taskLiEl;
     let taskNameEl;
     let taskActionsEl;
@@ -216,18 +216,22 @@ function renderCards(activeBoardCards) {
     for (const activeCard of activeBoardCards) {
 
         card = document.createElement("div")
-        card.className = "board_card shadow-md hover:shadow-lg rounded-md h-80 bg-white mr-5 p-5";
+        card.className = "board_card shadow-md hover:shadow-lg rounded-md min-h-80 bg-white mr-5 p-5";
         card.id = activeCard.id;
 
         renderCardHeader(activeCard);
 
         card.appendChild(cardNameConatiner);
 
-        renderTaskList()
-        card.appendChild(taskUlEl);
-        cardsContainer.prepend(card);
+        renderTasks(activeCard.tasks) // caling the function by sending activeCard id to render its tasks.
 
-        renderAddNewTaskForm();
+        
+        // card.appendChild(taskUlEl);
+        cardsContainer.prepend(card);
+        let curentCard = document.getElementById(activeCard.id)
+        curentCard.appendChild(taskUlEl);
+
+        renderAddNewTaskForm(activeCard.id);
     }
 
     function renderCardHeader(activeCard) {
@@ -253,16 +257,15 @@ function renderCards(activeBoardCards) {
 
     }
 
-    function renderTaskList() {
+    function renderTaskList(task) {
 
-        taskUlEl = document.createElement("ul");
         taskUlEl.className = "mt-5";
 
         taskLiEl = document.createElement("li");
         taskLiEl.className = "mb-3 bg-white shadow-md rounded-md py-4 px-3 flex justify-between hover:shadow-lg";
 
         taskNameEl = document.createElement("span");
-        taskNameEl.textContent = 'Design A new Page';
+        taskNameEl.textContent = task.name;
 
         taskLiEl.appendChild(taskNameEl);
         taskUlEl.appendChild(taskLiEl);
@@ -290,18 +293,47 @@ function renderCards(activeBoardCards) {
         taskLiEl.appendChild(taskActionsEl);
     }
 
-    function renderAddNewTaskForm() {
+    function renderAddNewTaskForm(cardId) {
 
         formContainer = document.createElement("div");
         formContainer.className = "flex items-center justify-between w-full mt-5";
 
         addNewTaskField = document.createElement("input");
         addNewTaskField.type = 'text';
-        addNewTaskField.className = 'task_name form-input w-full px-2 py-2 border rounded-md';
+        addNewTaskField.className = `task_name_${cardId} form-input w-full px-2 py-2 border rounded-md`;
         addNewTaskField.placeholder = "Add New Task..";
+        addNewTaskField.id = `task_name_${cardId}`;
 
         addNewTaskBtn = document.createElement("button");
-        addNewTaskBtn.className = "add_task_btn bg-black ml-2 text-white rounded-full";
+        addNewTaskBtn.className = `add_task_btn bg-black ml-2 text-white rounded-full`;
+        addNewTaskBtn.id = cardId;
+
+        // Function to add new task in the card.
+        function addNewTask() {
+
+            let taskName = document.querySelector(`.task_name_${cardId}`);
+            // alert(taskName.value);
+
+            let newTask = {
+                name: taskName.value,
+                created_on: new Date()
+            }
+
+            for (const activeCard of activeBoardCards) {
+
+                if (activeCard.id === cardId) {
+                    activeCard.tasks.push(newTask)
+                }
+                renderTasks(activeCard.tasks)
+
+                // console.log(activeCard.tasks)
+            }
+            taskName.value = '';
+
+        }
+
+
+        addNewTaskBtn.onclick = addNewTask;
 
         let addTaskIcon = document.createElement('span');
         addTaskIcon.className = 'material-symbols-outlined w-8 h-8 flex items-center justify-center';
@@ -315,15 +347,21 @@ function renderCards(activeBoardCards) {
 
     }
 
+    /* <=================================== Render the Task ===================================> */
+
+    function renderTasks(tasks) {
+
+        taskUlEl.innerHTML = "";
+        for (const task of tasks) {
+            renderTaskList(task)
+        }
+    }
+
 
 }
 
 
 
 
-/* <=================================== Add New Task ===================================> */
 
-addTaskBtn.addEventListener("click", function (e) {
 
-    alert()
-}, true)
