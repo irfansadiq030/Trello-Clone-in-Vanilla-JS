@@ -238,21 +238,19 @@ function renderCards(activeBoardCards) {
         card = document.createElement("div")
         card.className = "board_card shadow-md hover:shadow-lg rounded-md min-h-80 bg-white mr-5 p-5";
         card.id = activeCard.id;
-        let taskUlEl = document.createElement("ul");
 
         renderCardHeader(activeCard);
 
         card.appendChild(cardNameConatiner);
 
 
+
         // card.appendChild(taskUlEl);
         cardsContainer.prepend(card);
-        // renderTasksOfCard(activeCard) // caling the function by sending activeCard id to render its tasks.
+        renderTasksOfCard(activeCard) // caling the function by sending activeCard id to render its tasks.
 
 
         renderAddNewTaskForm(activeCard.id);
-        card.appendChild(taskUlEl);
-        displayTasks(activeCard)
     }
 
     function renderCardHeader(activeCard) {
@@ -278,32 +276,49 @@ function renderCards(activeBoardCards) {
 
     }
 
-    // function renderTaskList(task, activeCard) {
+    function renderTaskList(task, activeCard) {
 
-    //     let currentCardId = '#' + activeCard.id;
+        let currentCardId = '#'+activeCard.id;
+        
+        // let taskUlEl = document.createElement("ul");
 
-    //     // let taskUlEl = document.createElement("ul");
+        let curentCard = document.querySelector(currentCardId);
+        taskUlEl.className = "mt-5";
+        // console.log(curentCard)
 
-    //     let curentCard = document.querySelector(currentCardId);
-    //     taskUlEl.className = "mt-5";
-    //     // console.log(curentCard)
+        taskLiEl = document.createElement("li");
+        taskLiEl.className = "mb-3 bg-white shadow-md rounded-md py-4 px-3 flex justify-between hover:shadow-lg";
 
-    //     taskLiEl = document.createElement("li");
-    //     taskLiEl.className = "mb-3 bg-white shadow-md rounded-md py-4 px-3 flex justify-between hover:shadow-lg";
+        taskNameEl = document.createElement("span");
+        taskNameEl.textContent = task.name;
 
-    //     taskNameEl = document.createElement("span");
-    //     taskNameEl.textContent = task.name;
+        taskLiEl.appendChild(taskNameEl);
+        // taskUlEl.appendChild(taskLiEl);
 
-    //     taskLiEl.appendChild(taskNameEl);
-    //     // taskUlEl.appendChild(taskLiEl);
+        renderTaskActions(); // calling the function that shows task actions like Edit/Delete the task.
+        return taskLiEl;
 
-    //     renderTaskActions(); // calling the function that shows task actions like Edit/Delete the task.
-    //     return taskLiEl;
+        // curentCard.appendChild(taskUlEl);
+    }
 
-    //     // curentCard.appendChild(taskUlEl);
-    // }
+    function renderTaskActions() {
 
+        taskActionsEl = document.createElement("span");
+        taskActionsEl.className = "action flex";
 
+        taskActionEditEl = document.createElement("span");
+        taskActionEditEl.className = "material-symbols-outlined pr-3 cursor-pointer hover:text-red-600";
+        taskActionEditEl.textContent = "delete";
+
+        taskActionDelEl = document.createElement("span");
+        taskActionDelEl.className = "material-symbols-outlined cursor-pointer hover:text-yellow-500";
+        taskActionDelEl.textContent = "edit";
+
+        taskActionsEl.appendChild(taskActionEditEl)
+        taskActionsEl.appendChild(taskActionDelEl)
+
+        taskLiEl.appendChild(taskActionsEl);
+    }
 
     function renderAddNewTaskForm(cardId) {
 
@@ -323,33 +338,28 @@ function renderCards(activeBoardCards) {
 
 
             // addNewTask(cardId)
-            // debugger;
-            let taskName = document.getElementById(`task_name_${cardId}`);
+
+            let taskName = document.getElementById(`task_name_${cardId}`).value;
 
             let newTask = {
-                name: taskName.value,
+                name: taskName,
                 completed: false
             }
 
-            taskName.value = '';
+            // Iterate through boards and cards to find the matching card
+            for (let board of boards) {
 
-            // Find the active board dynamically
-            let activeBoard = boards.find(board => board.isActive);
-
-            // Check if the active board is found
-            if (activeBoard) {
-                // Find the matching card in the active board
-                let matchingCard = activeBoard.cards.find(card => card.id === cardId);
+                let matchingCard = board.cards.find(card => card.id === cardId)
 
                 // Check if a matching card is found
                 if (matchingCard) {
                     // Add a new task to the tasks array of the matching card
-                    let currentCardId = '#' + matchingCard.id;
-                    let curentCard = document.querySelector(currentCardId);
+                    matchingCard.tasks.push(newTask)
 
-                    matchingCard.tasks.push(newTask);
-                    displayTasks(matchingCard);
                 }
+                renderTasksOfCard(matchingCard)
+                console.log(matchingCard)
+                break; // Stop iterating once the matching card is found
             }
 
         });
@@ -369,63 +379,24 @@ function renderCards(activeBoardCards) {
 
     /* <=================================== Render the Task ===================================> */
 
-}
+    function renderTasksOfCard(activeCard) {
 
-function renderTaskActions() {
-
-    taskActionsEl = document.createElement("span");
-    taskActionsEl.className = "action flex";
-
-    taskActionEditEl = document.createElement("span");
-    taskActionEditEl.className = "material-symbols-outlined pr-3 cursor-pointer hover:text-red-600";
-    taskActionEditEl.textContent = "delete";
-
-    taskActionDelEl = document.createElement("span");
-    taskActionDelEl.className = "material-symbols-outlined cursor-pointer hover:text-yellow-500";
-    taskActionDelEl.textContent = "edit";
-
-    taskActionsEl.appendChild(taskActionEditEl)
-    taskActionsEl.appendChild(taskActionDelEl)
-
-    taskLiEl.appendChild(taskActionsEl);
-}
-
-function displayTasks(card) {
-
-    let currentCardId = '#' + card.id;
-    let curentCard = document.querySelector(currentCardId);
-    let taskUlEl = curentCard.querySelector('ul');
-
-    taskUlEl.innerHTML = "";
-
-    curentCard.appendChild(taskUlEl);
-
-    if (card.tasks.length != 0) {
-
-        // console.log(curentCard)
+        taskUlEl.innerHTML = "";
+        let currentCardId = '#' + activeCard.id;
+        let curentCard = document.querySelector(currentCardId);
 
         // Iterate through boards and cards to find the matching card
-        for (let curentTask of card.tasks) {
+        for (let curentTask of activeCard.tasks) {
 
-
-            taskUlEl.className = "mt-5";
-
-            let taskLiEl = document.createElement("li");
-            taskLiEl.className = "mb-3 bg-white shadow-md rounded-md py-4 px-3 flex justify-between hover:shadow-lg";
-
-            taskNameEl = document.createElement("span");
-            taskNameEl.textContent = curentTask.name;
-
-            taskLiEl.appendChild(taskNameEl);
+            renderTaskList(curentTask, activeCard)
             taskUlEl.appendChild(taskLiEl);
-
-            // renderTaskActions(); // calling the function that shows task actions like Edit/Delete the task.
-            curentCard.appendChild(taskUlEl)
         }
 
+        // Find the card element and append the updated task list
+       
+        curentCard.appendChild(taskUlEl);
 
-    } else {
-        // console.log('err')
+        // console.log(curentCard)
     }
 
 
