@@ -1,52 +1,52 @@
-Logic Of this APP:
+# Mini Trello Clone
 
-1- How to add New Board Logic works??
+## Table of Contents
+- [Introduction](#introduction)
+- [Features](#features)
+- [Getting Started](#getting-started)
+  - [Prerequisites](#prerequisites)
+  - [Installation](#installation)
+- [Usage](#usage)
+  - [Creating Boards](#creating-boards)
+  - [Adding Cards](#adding-cards)
+  - [Managing Tasks](#managing-tasks)
+- [Contributing](#contributing)
+- [License](#license)
 
-First we add the name of the board, in sidebar. After adding name.
-user will click on the Add Board button. 
-if user click on button directly without adding board name than we will display an alert that please enter name of the board.
-if it is NOT empty than we have added an eventListner to addBoard constant and in this event. We have defined our logic for adding boards.
+## Introduction
 
-We have created  created an array with name boards[] already in Global Scope.
+Welcome to the Mini Trello Clone! This lightweight project allows users to create boards, add unlimited cards to each board, and organize tasks within these cards. Tasks can be easily managed, including the ability to delete them.
 
-So that when user click on Add Board button we will create a object with name board{} and we will push this new board to the boards array.
+## Features
 
-Here on this button click we are also calling the function displayBoards() which will loop through boards array and display its all board names in sidebar.
+- **Board Creation**: Easily create boards from the sidebar to organize your tasks.
 
+- **Card Management**: Add an unlimited number of cards to each board, providing flexibility in task organization.
 
-Function: displayBoard() Function working:
+- **Task Handling**: Create various tasks within each card, with the option to delete tasks when they are completed or no longer needed.
 
-This function will first empty the UL element.
-Than we will loop through boards array, and than create a new li element and append that element into UL.
+## Getting Started
 
-We are also attaching a addEventListner method to each element so than whenever user click on any board that method will executes and we can activate that clicked board.
+### Prerequisites
 
-We are also calling this displayBoard function to display some default data, when user open page first time.
+Make sure you have the following prerequisites installed:
 
+- Web browser (Chrome, Firefox, Safari, etc.)
 
-Function: activateBoard() working:-
+## Usage
 
-This function is attached to each li tags of board Name. 
-when user click on any board name activateBoard will be called. 
-This function takes board ID as a parameter. 
+### Creating Boards
 
-This function will loop through boards array and than in the loop body it will check the board id with each looped item, if it matched. than it will change the isActive = true.
+1. On the sidebar, find the input "Type Board Name" option.
+2. Enter the name of your board and press "Add Board."
 
-After changing the status of board to active we will call the another function displayCard() in the body of the activateBoard() function.
+### Adding Cards
 
-Function: displayCard() working:
+1. Within a board, locate the "Add Card" button in right side.
+2. Provide a name for your card and press " + " button.
 
-This function will take activeBoard id as argument. so that this function display cards of this active board's card.
+### Managing Tasks
 
-Working:
-
-we will loop through the boards array.
-than we will get check the id of each board with the passed id if it is matched than we will call another function renderCards().
-
-Function: renderCard() working:
-
-This function will recieved cards array of the active board as an argument.
-
-in this function we have defined some global variables so that we can use those variables in any other functions.
-
-
+1. Inside a card, you will find an input field where you can enter the name of the task.
+2. Add various tasks related to the card.
+3. To delete a task, click on the delete icon.
