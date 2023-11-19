@@ -372,8 +372,8 @@ function renderCards(activeBoardCards) {
 
 }
 
-function renderTaskActions(task) {
-    
+function renderTaskActions(task, card) {
+
     taskActionsEl = document.createElement("span");
     taskActionsEl.className = "action flex";
 
@@ -382,15 +382,29 @@ function renderTaskActions(task) {
     taskActionEditEl.textContent = "edit";
     taskActionEditEl.id = `edit_${task.id}`;
 
+    // Attaching on click event of each task edit buttton
+    // taskActionEditEl.addEventListener("click", function (e) {
+
+    //     deleteTask(task);
+    // })
+
     taskActionDelEl = document.createElement("span");
     taskActionDelEl.className = "material-symbols-outlined cursor-pointer hover:text-red-500";
     taskActionDelEl.textContent = "delete";
     taskActionDelEl.id = `del_${task.id}`;
 
+    // Attaching on click event of each task delete buttton
+    taskActionDelEl.addEventListener("click", function (e) {
+
+        deleteTask(task, card);
+    })
+
     taskActionsEl.appendChild(taskActionEditEl)
     taskActionsEl.appendChild(taskActionDelEl)
     return taskActionsEl;
 }
+
+/* <=================================== Display/Render the Tasks of card ===================================> */
 
 function displayTasks(card) {
 
@@ -422,7 +436,7 @@ function displayTasks(card) {
             taskLiEl.appendChild(taskNameEl);
             taskUlEl.appendChild(taskLiEl);
 
-            let taskActionsEl = renderTaskActions(curentTask); // calling the function that shows task actions like Edit/Delete the task.
+            let taskActionsEl = renderTaskActions(curentTask, card); // calling the function that shows task actions like Edit/Delete the task.
             taskLiEl.appendChild(taskActionsEl)
             curentCard.appendChild(taskUlEl)
         }
@@ -433,6 +447,29 @@ function displayTasks(card) {
     }
 
 
+}
+
+/* <=================================== Edit Task Function ===================================> */
+function deleteTask(taskId, card) {
+
+    let taskEl = document.querySelector("#task_" + taskId.id)
+
+    let taskIndex = card.tasks.findIndex(task => task.id === taskId.id)
+
+    if (taskIndex !== -1) {  // making sure that task has been found
+
+        card.tasks.splice(taskIndex, 1) // Removing task from tasks arrya as well.
+
+        if (taskEl) {
+            // Remove the task element from the DOM
+            taskEl.remove();
+
+        }
+
+    }
+    else {
+        console.log("Task element not found");
+    }
 }
 
 
