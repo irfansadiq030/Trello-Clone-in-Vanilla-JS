@@ -50,3 +50,7 @@ This function will recieved cards array of the active board as an argument.
 in this function we have defined some global variables so that we can use those variables in any other functions.
 
 
+Drag and Drop Functionality:
+
+
+
