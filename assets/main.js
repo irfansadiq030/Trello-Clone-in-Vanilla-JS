@@ -327,6 +327,7 @@ function renderCards(activeBoardCards) {
             let taskName = document.getElementById(`task_name_${cardId}`);
 
             let newTask = {
+                id: generateID(),
                 name: taskName.value,
                 completed: false
             }
@@ -371,23 +372,24 @@ function renderCards(activeBoardCards) {
 
 }
 
-function renderTaskActions() {
-
+function renderTaskActions(task) {
+    
     taskActionsEl = document.createElement("span");
     taskActionsEl.className = "action flex";
 
     taskActionEditEl = document.createElement("span");
-    taskActionEditEl.className = "material-symbols-outlined pr-3 cursor-pointer hover:text-red-600";
-    taskActionEditEl.textContent = "delete";
+    taskActionEditEl.className = "material-symbols-outlined pr-3 cursor-pointer hover:text-yellow-600";
+    taskActionEditEl.textContent = "edit";
+    taskActionEditEl.id = `edit_${task.id}`;
 
     taskActionDelEl = document.createElement("span");
-    taskActionDelEl.className = "material-symbols-outlined cursor-pointer hover:text-yellow-500";
-    taskActionDelEl.textContent = "edit";
+    taskActionDelEl.className = "material-symbols-outlined cursor-pointer hover:text-red-500";
+    taskActionDelEl.textContent = "delete";
+    taskActionDelEl.id = `del_${task.id}`;
 
     taskActionsEl.appendChild(taskActionEditEl)
     taskActionsEl.appendChild(taskActionDelEl)
-
-    taskLiEl.appendChild(taskActionsEl);
+    return taskActionsEl;
 }
 
 function displayTasks(card) {
@@ -412,6 +414,7 @@ function displayTasks(card) {
 
             let taskLiEl = document.createElement("li");
             taskLiEl.className = "mb-3 bg-white shadow-md rounded-md py-4 px-3 flex justify-between hover:shadow-lg";
+            taskLiEl.id = `task_${curentTask.id}`
 
             taskNameEl = document.createElement("span");
             taskNameEl.textContent = curentTask.name;
@@ -419,7 +422,8 @@ function displayTasks(card) {
             taskLiEl.appendChild(taskNameEl);
             taskUlEl.appendChild(taskLiEl);
 
-            // renderTaskActions(); // calling the function that shows task actions like Edit/Delete the task.
+            let taskActionsEl = renderTaskActions(curentTask); // calling the function that shows task actions like Edit/Delete the task.
+            taskLiEl.appendChild(taskActionsEl)
             curentCard.appendChild(taskUlEl)
         }
 
