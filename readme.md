@@ -25,6 +25,13 @@ Welcome to the Mini Trello Clone! This lightweight project allows users to creat
 
 - **Task Handling**: Create various tasks within each card, with the option to delete tasks when they are completed or no longer needed.
 
+## Technologies Used
+
+- HTML5
+- JavaScript
+- Tailwind CSS
+- [Material Icons](https://fonts.googleapis.com/icon?family=Material+Icons)
+
 ## Getting Started
 
 ### Prerequisites
