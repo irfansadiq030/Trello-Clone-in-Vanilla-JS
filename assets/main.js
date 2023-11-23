@@ -208,7 +208,7 @@ function renderCards(activeBoardCards) {
     // Card Header Variables - end
 
     // Card Task List Variables -start
-    let taskUlEl = document.createElement("ul");
+    // let taskUlEl = document.createElement("ul");
     let taskLiEl;
     let taskNameEl;
     let taskActionsEl;
@@ -239,6 +239,7 @@ function renderCards(activeBoardCards) {
         card.className = "board_card shadow-md hover:shadow-lg rounded-md min-h-80 bg-white mr-5 p-5";
         card.id = activeCard.id;
         let taskUlEl = document.createElement("ul");
+        taskUlEl.className = "taskUl";
 
         renderCardHeader(activeCard);
 
@@ -406,8 +407,85 @@ function renderTaskActions(task, card) {
 
 /* <=================================== Display/Render the Tasks of card ===================================> */
 
-function displayTasks(card) {
+// function displayTasks(card) {
 
+//     let currentCardId = '#' + card.id;
+//     let curentCard = document.querySelector(currentCardId);
+//     let taskUlEl = curentCard.querySelector('ul');
+
+//     taskUlEl.innerHTML = "";
+
+
+//     curentCard.appendChild(taskUlEl);
+
+//     if (card.tasks.length != 0) {
+
+//         // console.log(curentCard)
+
+//         // Iterate through boards and cards to find the matching card
+//         for (let curentTask of card.tasks) {
+
+
+//             taskUlEl.className = "mt-5 taskUl";
+
+//             let taskLiEl = document.createElement("li");
+//             taskLiEl.className = "mb-3 bg-white shadow-md rounded-md py-4 px-3 flex justify-between hover:shadow-lg";
+//             taskLiEl.id = `task_${curentTask.id}`
+//             taskLiEl.draggable = 'true'
+
+//             taskLiEl.addEventListener("dragstart", function (e) {
+
+//                 // console.log(e)
+//                 // taskDragAndDrop(taskLiEl)
+//                 let selected = e.target
+
+//                 console.log(taskUlEl)
+
+//                 taskUlEl.addEventListener("dragover", function (e) {
+
+//                     e.preventDefault();
+//                     this.style.border = "2px dashed #ccc"
+//                 })
+
+//                 taskUlEl.addEventListener("dragleave", function (e) {
+
+//                     this.style.border = ""
+//                 })
+
+//                 taskUlEl.addEventListener("drop", function (e) {
+
+//                     e.preventDefault();
+//                     this.style.border = ""
+
+//                     this.appendChild(selected)
+//                     console.log(this)
+//                     console.log(selected)
+//                 })
+//             })
+
+
+
+//             taskNameEl = document.createElement("span");
+//             taskNameEl.textContent = curentTask.name;
+
+//             taskLiEl.appendChild(taskNameEl);
+//             taskUlEl.appendChild(taskLiEl);
+
+//             let taskActionsEl = renderTaskActions(curentTask, card); // calling the function that shows task actions like Edit/Delete the task.
+//             taskLiEl.appendChild(taskActionsEl)
+//             curentCard.appendChild(taskUlEl)
+//         }
+
+
+//     } else {
+//         // console.log('err')
+//     }
+
+
+// }
+
+// New function with drag and drop
+function displayTasks(card) {
     let currentCardId = '#' + card.id;
     let curentCard = document.querySelector(currentCardId);
     let taskUlEl = curentCard.querySelector('ul');
@@ -416,38 +494,68 @@ function displayTasks(card) {
 
     curentCard.appendChild(taskUlEl);
 
-    if (card.tasks.length != 0) {
+    if (card.tasks.length !== 0) {
+        taskUlEl.className = "mt-5 taskUl rounded-md py-5";
 
-        // console.log(curentCard)
-
-        // Iterate through boards and cards to find the matching card
+        // Iterate through tasks
         for (let curentTask of card.tasks) {
-
-
-            taskUlEl.className = "mt-5";
-
             let taskLiEl = document.createElement("li");
             taskLiEl.className = "mb-3 bg-white shadow-md rounded-md py-4 px-3 flex justify-between hover:shadow-lg";
-            taskLiEl.id = `task_${curentTask.id}`
+            taskLiEl.id = `task_${curentTask.id}`;
+            taskLiEl.draggable = 'true';
 
-            taskNameEl = document.createElement("span");
+            let taskNameEl = document.createElement("span");
             taskNameEl.textContent = curentTask.name;
 
             taskLiEl.appendChild(taskNameEl);
             taskUlEl.appendChild(taskLiEl);
 
-            let taskActionsEl = renderTaskActions(curentTask, card); // calling the function that shows task actions like Edit/Delete the task.
-            taskLiEl.appendChild(taskActionsEl)
-            curentCard.appendChild(taskUlEl)
+            let taskActionsEl = renderTaskActions(curentTask, card);
+            taskLiEl.appendChild(taskActionsEl);
         }
 
+        // Add drag and drop event listeners outside the loop
+        taskUlEl.addEventListener("dragover", function (e) {
+            e.preventDefault();
+            this.style.border = "2px dashed #ccc";
+        });
 
-    } else {
-        // console.log('err')
+        taskUlEl.addEventListener("dragleave", function (e) {
+            this.style.border = "";
+        });
+
+        taskUlEl.addEventListener("drop", function (e) {
+
+            let cardId = this.parentElement.id
+            // console.log(cardId)
+
+            e.preventDefault();
+            this.style.border = "";
+
+            // Handle the drop logic here
+            let selected = document.querySelector(".taskUl li.dragging");
+            this.appendChild(selected);
+
+            moveTaskToCard(cardId, selected.id)
+
+        });
+
+        // Add dragstart and dragend listeners to each task
+        let tasks = document.querySelectorAll(".taskUl li");
+        tasks.forEach(task => {
+            task.addEventListener("dragstart", function () {
+
+                this.classList.add("dragging");
+
+            });
+
+            task.addEventListener("dragend", function () {
+                this.classList.remove("dragging");
+            });
+        });
     }
-
-
 }
+
 
 /* <=================================== Edit Task Function ===================================> */
 function deleteTask(taskId, card) {
@@ -473,6 +581,53 @@ function deleteTask(taskId, card) {
 }
 
 
+/* <=================================== DRAG AND DROP Functionality - Move Element in Objects ===================================> */
+
+// Function to get the dragged task based on task ID
+function getDraggedTask(taskId) {
+
+    // Iterate through all boards and cards to find the task
+    for (const board of boards) {
+
+        for (const card of board.cards) {
+
+            const taskIndex = card.tasks.findIndex(task => task.id === taskId);
+            if (taskIndex !== -1) {
+                // Remove the task from the card
+                const draggedTask = card.tasks.splice(taskIndex, 1)[0];
+                return draggedTask;
+            }
+
+        }
+    }
+    return null; // Task not found
+}
+
+function moveTaskToCard(cardId, taskId) {
+
+    taskId = removeTaskPrefix(taskId);
+
+    for (const board of boards) {
+
+        if (board.isActive) {
+
+            let targetCard = board.cards.find(card => card.id === cardId)
+
+            // Find the index of the task with the provided task ID
+            const draggedTask = getDraggedTask(taskId)
+
+            targetCard.tasks.push(draggedTask)
+            // console.log(`Actual Card: ${targetCard.id} and recieved card id : ${cardId}`)
+        }
+
+    }
+
+}
+
+function removeTaskPrefix(taskId) {
+
+    return taskId.slice(5)
+}
 
 
 
