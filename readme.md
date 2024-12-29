@@ -1,17 +1,25 @@
 # Mini Trello Clone
 
+### Demo - Screenshots
+
+![Demo Image 1](https://raw.githubusercontent.com/irfansadiq030/Trello-Clone-in-Vanilla-JS/main/assets/images/trello-clone-demo1.png)
+![Demo Image 2](https://raw.githubusercontent.com/irfansadiq030/Trello-Clone-in-Vanilla-JS/main/assets/images/trello-clone-demo2.png)
+
+
+
 ## Table of Contents
-- [Introduction](#introduction)
-- [Features](#features)
-- [Getting Started](#getting-started)
-  - [Prerequisites](#prerequisites)
-  - [Installation](#installation)
-- [Usage](#usage)
-  - [Creating Boards](#creating-boards)
-  - [Adding Cards](#adding-cards)
-  - [Managing Tasks](#managing-tasks)
-- [Contributing](#contributing)
-- [License](#license)
+- [Mini Trello Clone](#mini-trello-clone)
+    - [Demo - Screenshots](#demo---screenshots)
+  - [Table of Contents](#table-of-contents)
+  - [Introduction](#introduction)
+  - [Features](#features)
+  - [Technologies Used](#technologies-used)
+  - [Getting Started](#getting-started)
+    - [Prerequisites](#prerequisites)
+  - [Usage](#usage)
+    - [Creating Boards](#creating-boards)
+    - [Adding Cards](#adding-cards)
+    - [Managing Tasks](#managing-tasks)
 
 ## Introduction
 
